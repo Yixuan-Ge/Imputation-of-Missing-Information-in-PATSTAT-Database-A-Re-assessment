@@ -16,7 +16,6 @@ patent_office CHAR(2) DEFAULT NULL
 );  -- COMMENT ON TABLE po IS 'List of patent offices to browse';
 
 INSERT INTO patstat2022a.dbo.po VALUES ('AL'), ('AT'), ('AU'), ('BE'), ('BG'),('BR'), ('CA'), ('CH'), ('CL'), ('CN'),('CY'), ('CZ'), ('DE'), ('DK'), ('EE'), ('EP'), ('ES'), ('FI'), ('FR'), ('GB'), ('GR'), ('HR'), ('HU'),('IB'), ('IE'), ('IL'), ('IN'), ('IS'), ('IT'), ('JP'), ('KR'), ('LT'), ('LU'), ('LV'), ('MK'), ('MT'), ('MX'), ('NL'), ('NO'), ('NZ'), ('PL'), ('PT'), ('RO'), ('RS'), ('RU'), ('SE'), ('SI'), ('SK'), ('SM'), ('TR'), ('US'), ('ZA');
--- 52 rows affected
 DROP INDEX IF EXISTS po.po_idx;
 
 CREATE UNIQUE CLUSTERED INDEX [po_idx] ON [patstat2022a].[dbo].[po]
@@ -37,7 +36,6 @@ GO
 --);
 
 --INSERT INTO patstat2022a.dbo.toExclude
--- 157509 rows affected
 --SELECT DISTINCT appln_id, publn_auth, publn_kind FROM patstat2022a.dbo.tls211_pat_publn
 --WHERE 
 --(publn_auth='AU' AND (publn_kind='A3' OR publn_kind='B3' OR publn_kind='B4' OR publn_kind='C1'
@@ -83,7 +81,6 @@ f_type VARCHAR(MAX)
 
 -- priority (!= 'W')
 INSERT INTO patstat2022a.dbo.PRIORITY_FILINGS
--- 14046248 rows affected
 SELECT DISTINCT t1.appln_id, t1.appln_kind, t1.appln_auth, t1.appln_filing_year, t1.appln_filing_date, 'priority'
 FROM patstat2022a.dbo.tls201_appln t1 
 JOIN patstat2022a.dbo.tls204_appln_prior t2 ON t1.appln_id = t2.prior_appln_id
@@ -101,7 +98,6 @@ AND t1.internat_appln_id = 0
 
 -- priority (W)
 INSERT INTO patstat2022a.dbo.PRIORITY_FILINGS
--- 169972 rows affected
 SELECT DISTINCT t1.appln_id, t1.appln_kind, t1.appln_auth, t1.appln_filing_year, t1.appln_filing_date, 'priority'
 FROM patstat2022a.dbo.tls201_appln t1 
 JOIN patstat2022a.dbo.tls204_appln_prior t2 ON t1.appln_id = t2.prior_appln_id
@@ -123,7 +119,6 @@ AND t1.internat_appln_id = 0
 
 -- pct (W)
 INSERT INTO patstat2022a.dbo.PRIORITY_FILINGS
--- 339206 rows affected
 SELECT DISTINCT t1.appln_id, t1.appln_kind, t1.appln_auth, t1.appln_filing_year, t1.appln_filing_date, 'pct'
 FROM patstat2022a.dbo.tls201_appln t1 
 --LEFT OUTER JOIN toExclude t3 ON t1.appln_id = t3.appln_id
@@ -145,7 +140,6 @@ AND t7.appln_id is null
 
 -- continual (!= 'W')
 INSERT INTO patstat2022a.dbo.PRIORITY_FILINGS
--- 1538972 rows affected
 SELECT DISTINCT t1.appln_id, t1.appln_kind, t1.appln_auth, t1.appln_filing_year, t1.appln_filing_date, 'continual'
 FROM patstat2022a.dbo.tls201_appln t1 
 JOIN patstat2022a.dbo.tls216_appln_contn t2 ON t1.appln_id = t2.parent_appln_id
@@ -166,7 +160,6 @@ AND t7.appln_id is null
 
 -- continual (W)
 INSERT INTO patstat2022a.dbo.PRIORITY_FILINGS
--- 3 rows affected
 SELECT DISTINCT t1.appln_id, t1.appln_kind, t1.appln_auth, t1.appln_filing_year, t1.appln_filing_date, 'continual'
 FROM patstat2022a.dbo.tls201_appln t1 
 JOIN patstat2022a.dbo.tls216_appln_contn t2 ON t1.appln_id = t2.parent_appln_id
@@ -188,7 +181,6 @@ AND t7.appln_id is null
 
 -- tech_rel (!= 'W')
 INSERT INTO patstat2022a.dbo.PRIORITY_FILINGS
--- 3185159 rows affected
 SELECT DISTINCT t1.appln_id, t1.appln_kind, t1.appln_auth, t1.appln_filing_year, t1.appln_filing_date, 'tech_rel'
 FROM patstat2022a.dbo.tls201_appln t1 
 JOIN patstat2022a.dbo.tls205_tech_rel t2 ON t1.appln_id = t2.tech_rel_appln_id
@@ -210,7 +202,6 @@ AND t7.appln_id is null
 
 -- tech_rel(W)
 INSERT INTO patstat2022a.dbo.PRIORITY_FILINGS
--- 12320 rows affected
 SELECT DISTINCT t1.appln_id, t1.appln_kind, t1.appln_auth, t1.appln_filing_year, t1.appln_filing_date, 'tech_rel'
 FROM patstat2022a.dbo.tls201_appln t1 
 JOIN patstat2022a.dbo.tls205_tech_rel t2 ON t1.appln_id = t2.tech_rel_appln_id
@@ -232,7 +223,6 @@ AND t7.appln_id is null
 
 -- single (!= 'W')
 INSERT INTO patstat2022a.dbo.PRIORITY_FILINGS
--- 62600662 rows affected
 SELECT DISTINCT t1.appln_id, t1.appln_kind, t1.appln_auth, t1.appln_filing_year, t1.appln_filing_date, 'single'
 FROM patstat2022a.dbo.tls201_appln t1 
 JOIN (SELECT docdb_family_id from patstat2022a.dbo.tls201_appln group by docdb_family_id having count(distinct appln_id) = 1) as t2
@@ -255,7 +245,6 @@ AND t7.appln_id is null
 
 -- single (W)
 INSERT INTO patstat2022a.dbo.PRIORITY_FILINGS
--- 258939 rows affected
 SELECT DISTINCT t1.appln_id, t1.appln_kind, t1.appln_auth, t1.appln_filing_year, t1.appln_filing_date, 'single'
 FROM patstat2022a.dbo.tls201_appln t1 
 JOIN (SELECT docdb_family_id from patstat2022a.dbo.tls201_appln group by docdb_family_id having count(distinct appln_id) = 1) as t2
@@ -326,7 +315,6 @@ f_type VARCHAR(MAX)
 
 
 INSERT INTO patstat2022a.dbo.PRIORITY_FILINGS1_IPC
--- 162396734 rows affected
 --first of all we need all priority filings with technology information in Patstat 
 SELECT DISTINCT t1.appln_id, t1.appln_kind, t1.patent_office, t1.appln_filing_year,  t1.appln_filing_date,
   t2.ipc_class_symbol, t2.ipc_class_level, t2.ipc_version, t2.ipc_value, t2.ipc_position, t2.ipc_gener_auth, t1.f_type
@@ -336,7 +324,6 @@ JOIN patstat2022a.dbo.tls209_appln_ipc t2 ON t1.appln_id = t2.appln_id;
 
 --second, we need all priority filings without any technology information
 INSERT INTO patstat2022a.dbo.PRIORITY_FILINGS1_IPC
--- 17249979 rows affected
 SELECT DISTINCT t1.appln_id, t1.appln_kind, t1.patent_office, t1.appln_filing_year,  t1.appln_filing_date,
 t2.ipc_class_symbol, t2.ipc_class_level, t2.ipc_version, t2.ipc_value, t2.ipc_position, t2.ipc_gener_auth, t1.f_type
 FROM patstat2022a.dbo.PRIORITY_FILINGS t1 
@@ -387,7 +374,6 @@ f_type VARCHAR(MAX)
 
 -- priority
 INSERT INTO patstat2022a.dbo.SUBSEQUENT_FILINGS1_IPC
--- 45939279 rows affected
 SELECT DISTINCT t1.appln_id, t1.appln_kind, t.subsequent_id, t1.patent_office, t1.appln_filing_year, t1.appln_filing_date,
 t.subsequent_date, t.nb_priorities, t1.f_type
 FROM patstat2022a.dbo.PRIORITY_FILINGS1_IPC t1 
@@ -410,7 +396,6 @@ ORDER BY t1.appln_id, t.subsequent_date ASC;
 
 -- continual
 INSERT INTO patstat2022a.dbo.SUBSEQUENT_FILINGS1_IPC
--- 2590991 rows affected
 SELECT DISTINCT t1.appln_id, t1.appln_kind, t.subsequent_id, t1.patent_office, t1.appln_filing_year, t1.appln_filing_date,
 t.subsequent_date, t.nb_priorities, t1.f_type
 FROM patstat2022a.dbo.PRIORITY_FILINGS1_IPC t1 
@@ -431,7 +416,6 @@ ORDER BY t1.appln_id, t.subsequent_date ASC;
 
 -- tech_rel
 INSERT INTO patstat2022a.dbo.SUBSEQUENT_FILINGS1_IPC
--- 3779180 rows affected
 SELECT DISTINCT t1.appln_id, t1.appln_kind, t.subsequent_id, t1.patent_office, t1.appln_filing_year, t1.appln_filing_date,
 t.subsequent_date, t.nb_priorities, t1.f_type
 FROM patstat2022a.dbo.PRIORITY_FILINGS1_IPC t1 
@@ -452,7 +436,6 @@ ORDER BY t1.appln_id, t.subsequent_date ASC;
 
 -- pct
 INSERT INTO patstat2022a.dbo.SUBSEQUENT_FILINGS1_IPC
--- 158402 rows affected
 SELECT DISTINCT t1.appln_id, t1.appln_kind, t.subsequent_id, t1.patent_office, t1.appln_filing_year, t1.appln_filing_date,
 t.subsequent_date, 1, t1.f_type
 FROM patstat2022a.dbo.PRIORITY_FILINGS1_IPC t1 
@@ -472,7 +455,6 @@ ORDER BY t1.appln_id, t.subsequent_date ASC;
 
 -- pct
 INSERT INTO patstat2022a.dbo.SUBSEQUENT_FILINGS1_IPC
--- 564208 rows affected
 SELECT DISTINCT t1.appln_id, t1.appln_kind, t.subsequent_id, t1.patent_office, t1.appln_filing_year, t1.appln_filing_date,
 t.subsequent_date, 2, t1.f_type
 FROM patstat2022a.dbo.PRIORITY_FILINGS1_IPC t1 
@@ -545,7 +527,6 @@ f_type VARCHAR(MAX)
 )
 
 INSERT INTO patstat2022a.dbo.EQUIVALENTS2_IPC
--- 124593901 rows affected
 SELECT  t1.appln_id, t1.subsequent_id, t1.patent_office, t1.appln_filing_year, t1.appln_filing_date, t1.subsequent_date,
   t2.ipc_class_symbol, t2.ipc_class_level, t2.ipc_version, t2.ipc_value, t2.ipc_position, t2.ipc_gener_auth, t1.f_type
 FROM patstat2022a.dbo.SUBSEQUENT_FILINGS1_IPC t1 
@@ -605,7 +586,6 @@ min_subsequent_date DATE
 
 
 INSERT INTO patstat2022a.dbo.EARLIEST_EQUIVALENT2_IPC
--- 79463682 rows affected
 SELECT t1.appln_id, subsequent_id, ipc_class_symbol, ipc_class_level, ipc_version, ipc_value, ipc_position, ipc_gener_auth, f_type, min_subsequent_date 
 FROM patstat2022a.dbo.EQUIVALENTS2_IPC t1
 JOIN (SELECT appln_id, min(subsequent_date) AS min_subsequent_date
@@ -650,7 +630,6 @@ min_subsequent_date DATE
 
 
 INSERT INTO patstat2022a.dbo.EARLIEST_EQUIVALENT2_IPC_
--- 39855449 rows affected
 SELECT t1.* FROM patstat2022a.dbo.EARLIEST_EQUIVALENT2_IPC t1 JOIN
 (SELECT appln_id, min(subsequent_id) as min_subsequent_id
 FROM patstat2022a.dbo.EARLIEST_EQUIVALENT2_IPC
@@ -702,7 +681,6 @@ f_type VARCHAR(MAX)
 ) 
 
 INSERT INTO patstat2022a.dbo.OTHER_SUBSEQUENT_FILINGS3_IPC
--- 92469957 rows affected
 SELECT  t1.appln_id, t1.subsequent_id,  t1.patent_office,t1.appln_filing_year, t1.appln_filing_date,  t1.subsequent_date,
 t2.ipc_class_symbol, t2.ipc_class_level, t2.ipc_version, t2.ipc_value, t2.ipc_position, t2.ipc_gener_auth, t1.f_type
 FROM patstat2022a.dbo.SUBSEQUENT_FILINGS1_IPC t1 
@@ -759,7 +737,6 @@ min_subsequent_date DATE
 ) 
 
 INSERT INTO patstat2022a.dbo.EARLIEST_SUBSEQUENT_FILING3_IPC
--- 50437587 rows affected
 SELECT t1.appln_id, subsequent_id, ipc_class_symbol, ipc_class_level, ipc_version, ipc_value, ipc_position, ipc_gener_auth, f_type, min_subsequent_date 
 FROM patstat2022a.dbo.OTHER_SUBSEQUENT_FILINGS3_IPC t1
 JOIN (SELECT appln_id, min(subsequent_date) AS min_subsequent_date 
@@ -802,7 +779,6 @@ min_subsequent_date DATE
 ) 
 
 INSERT INTO patstat2022a.dbo.EARLIEST_SUBSEQUENT_FILING3_IPC_
--- 19581313 rows affected
 SELECT t1.* FROM patstat2022a.dbo.EARLIEST_SUBSEQUENT_FILING3_IPC t1 JOIN
 (SELECT appln_id, min(subsequent_id) as min_subsequent_id
 FROM patstat2022a.dbo.EARLIEST_SUBSEQUENT_FILING3_IPC
@@ -851,7 +827,6 @@ f_type VARCHAR(MAX)
 )
 
 INSERT INTO patstat2022a.dbo.TABLE_USE_IPC
--- 179646713 rows affected
 SELECT * FROM patstat2022a.dbo.PRIORITY_FILINGS1_IPC; 
 
 CREATE CLUSTERED INDEX [TABLE_USE_TECH_APPLN_ID] ON [patstat2022a].[dbo].[TABLE_USE_IPC]
@@ -892,7 +867,6 @@ f_type VARCHAR(MAX) DEFAULT NULL
 -- A Insert information that is directly available (source = 1)
 
 INSERT INTO patstat2022a.dbo.TABLE_IPC
--- 162396734 rows affected
 SELECT  t_.appln_id, t_.ipc_class_level, t_.ipc_class_symbol, t_.ipc_gener_auth, t_.ipc_position, t_.ipc_value, t_.ipc_version, 1, f_type
 FROM patstat2022a.dbo.TABLE_USE_IPC t_
 WHERE t_.ipc_class_symbol IS NOT NULL;
@@ -902,7 +876,6 @@ WHERE t_.ipc_class_symbol IS NOT NULL;
 -- Delete information that has been added
 
 DELETE 
--- 162396734 rows affected
 FROM 
 	patstat2022a.dbo.TABLE_USE_IPC 
 WHERE appln_id IN (SELECT appln_id FROM patstat2022a.dbo.TABLE_IPC);   
@@ -913,7 +886,6 @@ WHERE appln_id IN (SELECT appln_id FROM patstat2022a.dbo.TABLE_IPC);
 
 -- B Add the information from each selected equivalent
 INSERT INTO patstat2022a.dbo.TABLE_IPC
--- 14600140 rows affected
 SELECT 
      t_.appln_id,
      t_.ipc_class_level, 
@@ -936,7 +908,6 @@ WHERE t1.ipc_class_symbol IS NOT NULL) AS t_;
 
 
 DELETE 
--- 5447367 rows affected
 FROM patstat2022a.dbo.TABLE_USE_IPC 
 WHERE appln_id IN (SELECT appln_id FROM patstat2022a.dbo.TABLE_IPC);   
 
@@ -951,7 +922,6 @@ WHERE appln_id IN (SELECT appln_id FROM patstat2022a.dbo.TABLE_IPC);
 -- C Add the information from each selected subsequent filing
 
 INSERT INTO patstat2022a.dbo.TABLE_IPC
--- 5029453 rows affected
 SELECT 
 t_.appln_id,
 t_.ipc_class_level, 
@@ -977,7 +947,6 @@ WHERE t1.ipc_class_symbol IS NOT NULL
 
 
 DELETE 
--- 1224529 rows affected
 FROM patstat2022a.dbo.TABLE_USE_IPC
 WHERE appln_id IN (SELECT appln_id FROM patstat2022a.dbo.TABLE_IPC);  
 
@@ -1020,7 +989,6 @@ CREATE TABLE patstat2022a.dbo.PF_IPC(
 
 -- F. Job done, insert into final table 
 INSERT INTO patstat2022a.dbo.PF_IPC
--- 182026327 rows affected
 SELECT DISTINCT t1.appln_id, t2.appln_kind, t2.patent_office, t2.appln_filing_year, t2.appln_filing_date,
 ipc_class_level, ipc_class_symbol, ipc_gener_auth, ipc_position, ipc_value, ipc_version, f_source, t1.f_type
 FROM patstat2022a.dbo.TABLE_IPC t1 JOIN patstat2022a.dbo.PRIORITY_FILINGS t2 ON t1.appln_id = t2.appln_id;
